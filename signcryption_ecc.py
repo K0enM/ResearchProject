@@ -30,7 +30,8 @@ class SigncryptionEcc():
         cipher = symcrypto.SymmetricCryptoAbstraction(Conversion.IP2OS(int(k)))
         c = cipher.encrypt(m)
         r = self.group.hash((k, m))
-        s = (v / (sk['x'] + r))
+        a = (sk['x'] + r) ** -1
+        s = (v * a)
         if self.debug:
             print(f'v => {v}\n')
             print(f'k => {k}\n')
@@ -56,15 +57,3 @@ class SigncryptionEcc():
             print(f'm => {m}\n')
             print(f'valid => {e == C["r"]}\n')
         return e == C['r'], m
-
-
-if __name__ == '__main__':
-    sc = SigncryptionEcc(prime192v1, debug=True)
-    pk_a, sk_a = sc.keygen()
-    pk_b, sk_b = sc.keygen(pk_a['g'])
-
-    msg = b"testing"
-    C = sc.signcrypt(pk_b, sk_a, msg)
-    valid, unsigncrypted = sc.unsigncrypt(pk_a, sk_b, C)
-    assert valid
-    assert unsigncrypted == msg
