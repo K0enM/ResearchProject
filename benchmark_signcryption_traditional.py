@@ -11,7 +11,7 @@ group.StartBenchmark(["Mul", "Div", "Exp", "RealTime", "CpuTime", "Add", "Sub"])
 for i in range(trials):
     pk_a, sk_a = sc.keygen()
     pk_b, sk_b = sc.keygen(g=pk_a['g'])
-    msg = os.urandom(16)
+    msg = os.urandom(20)
     original_len = len(msg)
 
     ciphertext = sc.signcrypt(pk_b, sk_a, msg)

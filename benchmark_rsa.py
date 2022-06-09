@@ -13,7 +13,7 @@ for i in range(trials):
     pk_enc, sk_enc = rsa_enc.keygen(secparam=2048)
 
 
-    msg = os.urandom(16)
+    msg = os.urandom(20)
     original_len = len(msg)
     print(original_len)
 

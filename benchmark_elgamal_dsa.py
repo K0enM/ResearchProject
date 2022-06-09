@@ -15,7 +15,7 @@ for i in range(trials):
     pk_sig, sk_sig = dsa.keygen(bits=128)
     pk_enc, sk_enc = elgamal.keygen(secparam=2048)
 
-    msg = os.urandom(16)
+    msg = os.urandom(20)
     original_len = len(msg)
 
     S = dsa.sign(pk=pk_sig, x=sk_sig, M=msg)

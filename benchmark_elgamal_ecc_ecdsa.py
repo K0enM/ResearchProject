@@ -4,21 +4,21 @@ import pickle
 from charm.schemes.pkenc.pkenc_elgamal85 import ElGamal
 from charm.schemes.pksig.pksig_ecdsa import ECDSA
 from charm.toolbox.ecgroup import ECGroup
-from charm.toolbox.eccurve import prime192v1
+from charm.toolbox.eccurve import prime256v1
 from charm.toolbox.conversion import Conversion
 
 trials = 20
-group = ECGroup(prime192v1)
+group = ECGroup(prime256v1)
 elgamal = ElGamal(group)
 ecdsa = ECDSA(group)
 
 assert group.InitBenchmark()
 group.StartBenchmark(["Mul", "Div", "Exp", "RealTime", "CpuTime", "Add", "Sub"])
 for i in range(trials):
-    pk_sig, sk_sig = ecdsa.keygen(bits=128)
+    pk_sig, sk_sig = ecdsa.keygen(bits=256)
     pk_enc, sk_enc = elgamal.keygen(secparam=2048)
 
-    msg = os.urandom(16)
+    msg = os.urandom(20)
     original_len = len(msg)
 
     S = ecdsa.sign(pk=pk_sig, x=sk_sig, M=msg)
